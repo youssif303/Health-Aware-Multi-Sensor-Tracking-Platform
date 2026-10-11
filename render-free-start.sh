@@ -22,12 +22,13 @@ mlflow server \
 mlflow_pid=$!
 
 python - <<'PY'
+import socket
 import time
-import urllib.request
 
-for _ in range(60):
+for _ in range(120):
     try:
-        urllib.request.urlopen("http://127.0.0.1:5000/", timeout=1)
+        with socket.create_connection(("127.0.0.1", 5000), timeout=1):
+            pass
         break
     except Exception:
         time.sleep(1)
