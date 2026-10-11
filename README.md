@@ -224,18 +224,20 @@ localhost by default.
 
 ## Render deployment
 
-`render.yaml` defines a public dashboard/API service and a private MLflow
-tracking service, both in Frankfurt. Each has a 1 GB persistent disk so
-experiment outputs, MLflow metadata, and artifacts survive deploys. To deploy,
-push this repository to GitHub, connect the private repository in Render, and
-create a Blueprint from the repository's `render.yaml`. The API dashboard is
-public; MLflow is reachable only by the API over Render's private network.
+`render.yaml` defines one free web service in Frankfurt. It runs the public
+dashboard/API and a loopback-only MLflow tracking server in the same container,
+because Render's Free web services cannot receive private network traffic and
+private services are paid. The API dashboard includes the checked-in benchmark
+summary. To deploy, connect the GitHub repository in Render and create a
+Blueprint from `render.yaml`.
 
-The configured smallest paid plan is currently $7/month per service, and disks
-are $0.25/GB/month, for an estimated $14.50/month total before bandwidth or
-workspace charges. Render's free services do not provide persistent disks, so
-they are not used for this durable configuration. Confirm the current total in
-Render's Blueprint review screen before creating the services.
+Free services sleep after 15 minutes without traffic and wake on the next
+request (typically taking about a minute). Their filesystem is ephemeral, so
+new experiment outputs and MLflow runs/artifacts are lost when the service
+restarts, sleeps, or redeploys; only checked-in results persist. Render provides
+750 free instance hours per workspace each month, subject to its included
+bandwidth and build limits. This free deployment is suitable for a demo, not
+durable production data.
 
 ## CI checks
 

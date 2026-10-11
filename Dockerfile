@@ -22,6 +22,9 @@ RUN python -m pip install --no-cache-dir -r requirements-tracking.txt
 COPY --chown=app:app python/ ./python/
 COPY --chown=app:app dashboard/ ./dashboard/
 COPY --chown=app:app models/ ./models/
+COPY --chown=app:app results/ ./results/
+COPY --chown=app:app render-free-start.sh /usr/local/bin/render-free-start
+RUN chmod 0755 /usr/local/bin/render-free-start
 COPY --from=cpp-build /src/build/tracker /usr/local/bin/tracker
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
 EXPOSE 8000 5000
