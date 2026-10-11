@@ -225,16 +225,17 @@ localhost by default.
 ## Render deployment
 
 `render.yaml` defines one free web service in Frankfurt. It runs the public
-dashboard/API and a loopback-only MLflow tracking server in the same container,
-because Render's Free web services cannot receive private network traffic and
-private services are paid. The API dashboard includes the checked-in benchmark
-summary. To deploy, connect the GitHub repository in Render and create a
-Blueprint from `render.yaml`.
+dashboard/API with the checked-in benchmark summary. The free instance has
+512 MiB of memory, so the Render startup command disables MLflow tracking to
+keep the API responsive. Docker Compose runs the full API + MLflow setup locally;
+MLflow tracking remains enabled whenever `MLFLOW_TRACKING_URI` is configured.
+To deploy, connect the GitHub repository in Render and create a Blueprint from
+`render.yaml`.
 
 Free services sleep after 15 minutes without traffic and wake on the next
 request (typically taking about a minute). Their filesystem is ephemeral, so
-new experiment outputs and MLflow runs/artifacts are lost when the service
-restarts, sleeps, or redeploys; only checked-in results persist. Render provides
+new experiment outputs are lost when the service restarts, sleeps, or redeploys;
+only checked-in results persist. Render provides
 750 free instance hours per workspace each month, subject to its included
 bandwidth and build limits. This free deployment is suitable for a demo, not
 durable production data.

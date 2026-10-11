@@ -9,8 +9,3 @@ services:
     dockerCommand: /usr/local/bin/render-free-start
     healthCheckPath: /health
     autoDeployTrigger: checksPass
-    envVars:
-      - key: MLFLOW_TRACKING_URI
-        value: http://127.0.0.1:5000
-      - key: MLFLOW_EXPERIMENT_NAME
-        value: health-aware-tracking
