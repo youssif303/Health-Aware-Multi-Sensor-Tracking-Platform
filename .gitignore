@@ -1,0 +1,6 @@
+/build/
+/data/
+/.runtime_deps/
+/.pytest_cache/
+__pycache__/
+*.py[cod]

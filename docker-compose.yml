@@ -1,0 +1,65 @@
+services:
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    command:
+      - mlflow
+      - server
+      - --backend-store-uri
+      - sqlite:////mlflow/mlflow.db
+      - --artifacts-destination
+      - /mlflow/artifacts
+      - --host
+      - 0.0.0.0
+      - --port
+      - "5000"
+      - --allowed-hosts
+      - localhost:5001,127.0.0.1:5001,127.0.0.1:5000,mlflow:5000
+    ports:
+      - "127.0.0.1:5001:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    environment:
+      TRACKER_EXECUTABLE: /usr/local/bin/tracker
+      RUL_MODEL_PATH: /app/models/rul_knn.json
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MLFLOW_EXPERIMENT_NAME: health-aware-tracking
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - experiment-data:/app/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+volumes:
+  experiment-data:
+  mlflow-data:

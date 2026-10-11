@@ -1,0 +1,11 @@
+{
+  "training_samples": 1648,
+  "held_out_samples": 503,
+  "training_scenarios": 30,
+  "held_out_scenarios": 10,
+  "mae_seconds": 3.2882556580179174,
+  "rmse_seconds": 4.248259607694144,
+  "median_baseline_mae_seconds": 7.301192842942346,
+  "mae_improvement_percent": 54.962761171327095,
+  "model_path": "models\\rul_knn.json"
+}

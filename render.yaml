@@ -1,0 +1,44 @@
+services:
+  - type: pserv
+    name: tracking-mlflow
+    runtime: docker
+    region: frankfurt
+    plan: 0.5c-512mb
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: >-
+      sh -c 'exec mlflow server --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination /mlflow/artifacts --host 0.0.0.0 --port 5000
+      --allowed-hosts "$RENDER_INTERNAL_HOSTPORT"'
+    envVars:
+      - key: RENDER_INTERNAL_HOSTPORT
+        fromService:
+          name: tracking-mlflow
+          type: pserv
+          property: hostport
+    disk:
+      name: mlflow-data
+      mountPath: /mlflow
+      sizeGB: 1
+
+  - type: web
+    name: health-aware-tracking
+    runtime: docker
+    region: frankfurt
+    plan: 0.5c-512mb
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: MLFLOW_TRACKING_HOSTPORT
+        fromService:
+          name: tracking-mlflow
+          type: pserv
+          property: hostport
+      - key: MLFLOW_EXPERIMENT_NAME
+        value: health-aware-tracking
+    disk:
+      name: experiment-data
+      mountPath: /app/data
+      sizeGB: 1

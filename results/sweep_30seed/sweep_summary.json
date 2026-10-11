@@ -1,0 +1,263 @@
+{
+  "runs_per_fault": 30,
+  "steps": 500,
+  "seed_start": 100,
+  "confidence_interval": {
+    "method": "percentile_bootstrap",
+    "level": 0.95,
+    "resamples": 10000,
+    "unit": "paired per-seed RMSE improvement"
+  },
+  "faults": {
+    "camera_noise": {
+      "baseline_position_rmse": {
+        "count": 30,
+        "mean": 0.47382499603492084,
+        "stddev": 0.018387127531764587,
+        "median": 0.4757653212081582,
+        "ci95_low": 0.46725000813925033,
+        "ci95_high": 0.4800923747869184
+      },
+      "adaptive_position_rmse": {
+        "count": 30,
+        "mean": 0.3044330592336984,
+        "stddev": 0.009043005864379585,
+        "median": 0.3046130802683976,
+        "ci95_low": 0.3012924917423569,
+        "ci95_high": 0.307639254338754
+      },
+      "rmse_improvement_percent": {
+        "count": 30,
+        "mean": 35.66860113437773,
+        "stddev": 2.8771503143422215,
+        "median": 35.96703533954532,
+        "ci95_low": 34.640872938992274,
+        "ci95_high": 36.65713891982939
+      },
+      "fault_detection_delay_s": {
+        "count": 30,
+        "mean": 0.10666666666666667,
+        "stddev": 0.0639683829949492,
+        "median": 0.1,
+        "ci95_low": 0.08333333333333333,
+        "ci95_high": 0.13
+      },
+      "false_alarm_rate": {
+        "count": 30,
+        "mean": 0.00776,
+        "stddev": 0.008921172027532457,
+        "median": 0.006,
+        "ci95_low": 0.0048266666666666675,
+        "ci95_high": 0.011173333333333334
+      },
+      "rul_prediction_mae_seconds": {
+        "count": 0,
+        "mean": null,
+        "stddev": null,
+        "median": null,
+        "ci95_low": null,
+        "ci95_high": null
+      }
+    },
+    "radar_bias": {
+      "baseline_position_rmse": {
+        "count": 30,
+        "mean": 0.5506661264613436,
+        "stddev": 0.009081084290214802,
+        "median": 0.5506400051148187,
+        "ci95_low": 0.5474031051351067,
+        "ci95_high": 0.5538389472222853
+      },
+      "adaptive_position_rmse": {
+        "count": 30,
+        "mean": 0.30369121522570924,
+        "stddev": 0.008298598662096176,
+        "median": 0.3037957678843035,
+        "ci95_low": 0.30088007423726515,
+        "ci95_high": 0.3067277311115493
+      },
+      "rmse_improvement_percent": {
+        "count": 30,
+        "mean": 44.84785728040064,
+        "stddev": 1.3038786215949718,
+        "median": 44.90756946568948,
+        "ci95_low": 44.38205628733947,
+        "ci95_high": 45.30220526817382
+      },
+      "fault_detection_delay_s": {
+        "count": 30,
+        "mean": 0.09000000000000001,
+        "stddev": 0.03051285766293647,
+        "median": 0.1,
+        "ci95_low": 0.08000000000000002,
+        "ci95_high": 0.1
+      },
+      "false_alarm_rate": {
+        "count": 30,
+        "mean": 0.012213333333333333,
+        "stddev": 0.009836025736996146,
+        "median": 0.008400000000000001,
+        "ci95_low": 0.00888,
+        "ci95_high": 0.015893333333333332
+      },
+      "rul_prediction_mae_seconds": {
+        "count": 0,
+        "mean": null,
+        "stddev": null,
+        "median": null,
+        "ci95_low": null,
+        "ci95_high": null
+      }
+    },
+    "gps_dropout": {
+      "baseline_position_rmse": {
+        "count": 30,
+        "mean": 0.34002251580284315,
+        "stddev": 0.01039436032594015,
+        "median": 0.33920751420809503,
+        "ci95_low": 0.3362813077680991,
+        "ci95_high": 0.34353477265543736
+      },
+      "adaptive_position_rmse": {
+        "count": 30,
+        "mean": 0.3419659618411767,
+        "stddev": 0.01051573250791083,
+        "median": 0.3416616216531338,
+        "ci95_low": 0.33818953540437513,
+        "ci95_high": 0.34551499438550676
+      },
+      "rmse_improvement_percent": {
+        "count": 30,
+        "mean": -0.5712566618253719,
+        "stddev": 0.22478478901952417,
+        "median": -0.5830635769542987,
+        "ci95_low": -0.6477351715013487,
+        "ci95_high": -0.49071970705419826
+      },
+      "fault_detection_delay_s": {
+        "count": 30,
+        "mean": 0.1,
+        "stddev": 0.0,
+        "median": 0.1,
+        "ci95_low": 0.1,
+        "ci95_high": 0.1
+      },
+      "false_alarm_rate": {
+        "count": 30,
+        "mean": 0.00013333333333333334,
+        "stddev": 0.0003032392174315614,
+        "median": 0.0,
+        "ci95_low": 2.6666666666666667e-05,
+        "ci95_high": 0.00024000000000000003
+      },
+      "rul_prediction_mae_seconds": {
+        "count": 0,
+        "mean": null,
+        "stddev": null,
+        "median": null,
+        "ci95_low": null,
+        "ci95_high": null
+      }
+    },
+    "camera_ramp": {
+      "baseline_position_rmse": {
+        "count": 30,
+        "mean": 0.36504931411556407,
+        "stddev": 0.01321387292073199,
+        "median": 0.36622389406095424,
+        "ci95_low": 0.3603169311710388,
+        "ci95_high": 0.3695353550404393
+      },
+      "adaptive_position_rmse": {
+        "count": 30,
+        "mean": 0.29588941540383723,
+        "stddev": 0.008453316641573635,
+        "median": 0.29601400360568775,
+        "ci95_low": 0.29299056810744056,
+        "ci95_high": 0.2988987044803763
+      },
+      "rmse_improvement_percent": {
+        "count": 30,
+        "mean": 18.878593222348364,
+        "stddev": 2.8128830834150302,
+        "median": 19.683040142432198,
+        "ci95_low": 17.845926255036527,
+        "ci95_high": 19.85330460339003
+      },
+      "fault_detection_delay_s": {
+        "count": 30,
+        "mean": 4.08,
+        "stddev": 0.4656474913568166,
+        "median": 4.1000000000000005,
+        "ci95_low": 3.9200000000000004,
+        "ci95_high": 4.243333333333334
+      },
+      "false_alarm_rate": {
+        "count": 30,
+        "mean": 0.00018666666666666666,
+        "stddev": 0.0004032055463949847,
+        "median": 0.0,
+        "ci95_low": 5.333333333333333e-05,
+        "ci95_high": 0.0003466666666666667
+      },
+      "rul_prediction_mae_seconds": {
+        "count": 30,
+        "mean": 2.9567130979786618,
+        "stddev": 0.3610954122757036,
+        "median": 2.9849471098050016,
+        "ci95_low": 2.8326515606424207,
+        "ci95_high": 3.0858865045456634
+      }
+    },
+    "radar_ramp": {
+      "baseline_position_rmse": {
+        "count": 30,
+        "mean": 0.36082589450182934,
+        "stddev": 0.007994376422956145,
+        "median": 0.3613110675589074,
+        "ci95_low": 0.3579336006961695,
+        "ci95_high": 0.36357213014268874
+      },
+      "adaptive_position_rmse": {
+        "count": 30,
+        "mean": 0.2884504412604532,
+        "stddev": 0.007895894732598246,
+        "median": 0.2894329840839368,
+        "ci95_low": 0.28574887074058186,
+        "ci95_high": 0.2912825019968259
+      },
+      "rmse_improvement_percent": {
+        "count": 30,
+        "mean": 20.05572109799628,
+        "stddev": 1.4262678317927042,
+        "median": 20.016377303287957,
+        "ci95_low": 19.548635401666495,
+        "ci95_high": 20.56913285345452
+      },
+      "fault_detection_delay_s": {
+        "count": 30,
+        "mean": 7.906666666666667,
+        "stddev": 0.6832646447114352,
+        "median": 7.95,
+        "ci95_low": 7.66,
+        "ci95_high": 8.146666666666667
+      },
+      "false_alarm_rate": {
+        "count": 30,
+        "mean": 0.00013333333333333334,
+        "stddev": 0.0003032392174315614,
+        "median": 0.0,
+        "ci95_low": 2.6666666666666667e-05,
+        "ci95_high": 0.00024000000000000003
+      },
+      "rul_prediction_mae_seconds": {
+        "count": 30,
+        "mean": 2.7350149909848778,
+        "stddev": 0.25500187074601616,
+        "median": 2.70281780639752,
+        "ci95_low": 2.644784188926517,
+        "ci95_high": 2.824054924547426
+      }
+    }
+  }
+}

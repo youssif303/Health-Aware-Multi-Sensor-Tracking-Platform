@@ -1,0 +1,6 @@
+.git
+.runtime_deps
+build
+data
+__pycache__
+*.py[cod]

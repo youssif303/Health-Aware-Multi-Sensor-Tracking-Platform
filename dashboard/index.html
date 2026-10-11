@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c111b">
+  <title>Health-Aware Tracking</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Health-Aware Tracking home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"></circle><circle cx="16" cy="16" r="5"></circle><path d="M16 1v8M31 16h-8M16 31v-8M1 16h8M16 16l9-8"></path><circle class="brand-dot" cx="25" cy="8" r="2"></circle></svg></span>
+      <span><strong>TRACK / HEALTH</strong><small>MULTI-SENSOR PLATFORM</small></span>
+    </a>
+    <div class="topbar-right"><span class="api-indicator" id="api-indicator"><i></i><span>Checking API</span></span><span class="topbar-divider"></span><span class="topbar-caption">SIMULATION CONSOLE</span></div>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-heading">
+      <div><p class="eyebrow">FLEET OPERATIONS <span> / </span> EXPERIMENT MONITOR</p><h1>Tracking health overview</h1><p class="page-subtitle">Inspect fused drone tracks, sensor degradation, and remaining-life estimates.</p></div>
+      <div class="run-picker"><label for="run-select">RECENT RUNS</label><select id="run-select"><option value="">No runs yet</option></select></div>
+    </section>
+
+    <section class="control-panel panel" aria-labelledby="launch-title">
+      <div class="panel-heading control-heading"><div><p class="eyebrow">SCENARIO CONTROL</p><h2 id="launch-title">Launch an experiment</h2></div><span class="run-id" id="run-id">Awaiting experiment</span></div>
+      <form id="experiment-form" class="experiment-form">
+        <label class="field field-wide"><span>FAULT PROFILE</span><select id="fault" name="fault"><option value="camera_noise">Camera noise increase</option><option value="radar_bias">Radar position bias</option><option value="gps_dropout">GPS packet loss</option><option value="camera_ramp">Gradual camera degradation</option><option value="radar_ramp">Gradual radar bias</option><option value="none">No injected fault</option></select></label>
+        <label class="field"><span>SEED</span><input id="seed" type="number" value="7" min="0" max="2147483647"></label>
+        <label class="field"><span>TIME STEPS</span><input id="steps" type="number" value="500" min="120" max="5000"></label>
+        <div class="ramp-fields" id="ramp-fields" hidden>
+          <label class="field"><span>ONSET STEP</span><input id="onset-step" type="number" value="120" min="0"></label>
+          <label class="field"><span>FAILURE THRESHOLD STEP</span><input id="failure-step" type="number" value="390" min="1"></label>
+        </div>
+        <button class="primary-button" id="run-button" type="submit"><span class="button-icon">▶</span><span>Run experiment</span></button>
+      </form>
+      <div class="form-status" id="form-status" role="status">Runs use the same seeded trajectory for baseline and adaptive tracking.</div>
+    </section>
+
+    <section class="metrics-grid" aria-label="Experiment metrics">
+      <article class="metric-card panel metric-primary"><div class="metric-label">ADAPTIVE POSITION RMSE</div><div class="metric-value" id="metric-rmse">—</div><div class="metric-foot" id="metric-rmse-foot">Baseline: —</div><span class="metric-symbol">◎</span></article>
+      <article class="metric-card panel"><div class="metric-label">RMSE CHANGE</div><div class="metric-value" id="metric-improvement">—</div><div class="metric-foot">Health-adaptive vs baseline</div><span class="metric-symbol">↘</span></article>
+      <article class="metric-card panel"><div class="metric-label">FAULT DETECTION</div><div class="metric-value" id="metric-delay">—</div><div class="metric-foot">Time from onset to alert</div><span class="metric-symbol">◷</span></article>
+      <article class="metric-card panel"><div class="metric-label">FALSE ALARM RATE</div><div class="metric-value" id="metric-false-alarms">—</div><div class="metric-foot">Across healthy sensor steps</div><span class="metric-symbol">⌁</span></article>
+    </section>
+
+    <section class="panel sweep-panel" aria-labelledby="sweep-title">
+      <div class="panel-heading"><div><p class="eyebrow">REPEATABILITY CHECK</p><h2 id="sweep-title">Multi-seed performance</h2></div><span class="run-id" id="sweep-caption">Looking for a saved sweep…</span></div>
+      <div class="sweep-table-wrap"><table class="sweep-table"><thead><tr><th>Fault profile</th><th>Runs</th><th>Baseline RMSE</th><th>Adaptive RMSE</th><th>Mean improvement</th><th>95% CI · improvement</th><th>Detection delay</th><th>RUL MAE</th></tr></thead><tbody id="sweep-rows"><tr><td colspan="8" class="empty-state">No sweep summary found. Run python/sweep_experiments.py to populate this panel.</td></tr></tbody></table></div>
+    </section>
+
+    <section class="main-grid">
+      <article class="panel tracks-panel">
+        <div class="panel-heading"><div><p class="eyebrow">LIVE REPLAY</p><h2>Fused target tracks</h2></div><div class="plot-legend" id="plot-legend"></div></div>
+        <div class="plot-wrap"><svg id="track-plot" viewBox="0 0 900 460" role="img" aria-label="Estimated drone tracks compared with ground truth"><text class="plot-empty" x="450" y="230" text-anchor="middle">Run an experiment to view target tracks</text></svg></div>
+        <div class="plot-footer"><span>POSITION · METERS</span><span id="plot-time">—</span></div>
+      </article>
+      <aside class="panel sensor-panel">
+        <div class="panel-heading"><div><p class="eyebrow">SENSOR TELEMETRY</p><h2>Health status</h2></div><span class="live-pill"><i></i> LATEST</span></div>
+        <div id="sensor-list" class="sensor-list"><div class="empty-state">Sensor readings will appear after a run.</div></div>
+      </aside>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="panel events-panel"><div class="panel-heading"><div><p class="eyebrow">ANOMALY LOG</p><h2>Fault events</h2></div><span class="event-count" id="event-count">0 events</span></div><div id="event-list" class="event-list"><div class="empty-state">No events to display.</div></div></article>
+      <article class="panel summary-panel"><div class="panel-heading"><div><p class="eyebrow">RUN SUMMARY</p><h2>Experiment details</h2></div><span class="summary-icon">▤</span></div><div class="summary-list" id="summary-list"><div><span>Scenario</span><strong>—</strong></div><div><span>Random seed</span><strong>—</strong></div><div><span>Track availability</span><strong>—</strong></div><div><span>RUL prediction MAE</span><strong>—</strong></div></div></article>
+    </section>
+    <footer class="page-footer"><span>HEALTH-AWARE MULTI-SENSOR TRACKING</span><span>SIMULATION VALUES · METERS · SECONDS</span></footer>
+  </main>
+  <script src="/app.js?v=2" defer></script>
+</body>
+</html>
